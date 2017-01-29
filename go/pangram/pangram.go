@@ -22,7 +22,7 @@ func IsPangram(s string) bool {
 	panagram := true
 	set := NewIntSet()
 
-	if len(s) > 27 {
+	if len(s) > 25 {
 		s = strings.ToLower(s)
 		for _, l := range s {
 			set.Add(int(l))
