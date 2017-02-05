@@ -2,7 +2,6 @@
 package bob
 
 import (
-	"fmt"
 	"strings"
 	"unicode"
 )
@@ -15,24 +14,17 @@ const (
 	none             = 0
 )
 
+// Hey responsds to a conversation like a teenager
 func Hey(s string) string {
 	var response string
-	var upper bool
+	var upper, letterUpper bool
 
 	s = strings.TrimSpace(s)
 	if s == "" {
 		response = "Fine. Be that way!"
 	} else {
 		endMark := endMark(s)
-		letterUpper := hasUpper(s)
-
-		if endMark == 0 {
-			upper = allUpper(s)
-		} else {
-			upper = allUpper(s[0 : len(s)-1])
-		}
-
-		fmt.Println(endMark, upper, letterUpper)
+		upper, letterUpper = allUpper(s)
 
 		if endMark == period {
 			response = "Whatever."
@@ -66,16 +58,6 @@ func Hey(s string) string {
 	return response
 }
 
-func allSpaces(s string) bool {
-	as := true
-	for _, r := range s {
-		if !unicode.IsSpace(r) {
-			as = false
-		}
-	}
-	return as
-}
-
 func endMark(s string) int {
 	endMark := none
 	if len(s) > 0 {
@@ -87,16 +69,17 @@ func endMark(s string) int {
 	return int(endMark)
 }
 
-func hasEndMark(s string) bool {
-	e := s[len(s)-1]
-	return e == 46
-
-}
-func allUpper(s string) bool {
+func allUpper(s string) (bool, bool) {
 	upper := true
+	upperLetter := false
 	for _, r := range s {
+		// check for an upper case letter
+		if unicode.IsUpper(r) {
+			upperLetter = true
+		}
+
+		//Check all upper case letters with special char exceptions
 		if upper {
-			fmt.Println(s, r)
 			if unicode.IsUpper(r) || unicode.IsSpace(r) || unicode.IsDigit(r) || unicode.IsPunct(r) || unicode.IsMark(r) || unicode.IsControl(r) || unicode.IsSymbol(r) {
 				upper = true
 			} else {
@@ -105,14 +88,5 @@ func allUpper(s string) bool {
 		}
 	}
 
-	return upper
-}
-
-func hasUpper(s string) bool {
-	for _, r := range s {
-		if unicode.IsUpper(r) {
-			return true
-		}
-	}
-	return false
+	return upper, upperLetter
 }
