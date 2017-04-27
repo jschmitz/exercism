@@ -1,28 +1,20 @@
 class Transcriptor {
+  constructor(){
+    this.complements = {
+      'G': 'C',
+      'C': 'G',
+      'T': 'A',
+      'A': 'U'
+    };
+  }
+
   toRna(strand){
-    let newStrand = "";
-
-    [...strand].map(c => {
-      console.log(c)
-      switch(c){
-        case 'C':
-          newStrand += 'G'
-          break;
-        case 'G':
-          newStrand += 'C'
-          break;
-        case 'A':
-          newStrand += 'U'
-          break;
-        case 'T':
-          newStrand += 'A'
-          break;
-        default:
-          throw new Error('Invalid input DNA.')
+    return [...strand].map(c => {
+      if(this.complements[c] === undefined){
+        throw new Error('Invalid input DNA.')
       }
-    })
-
-    return newStrand;
+      return this.complements[c];
+    }).join('')
   }
 }
 
