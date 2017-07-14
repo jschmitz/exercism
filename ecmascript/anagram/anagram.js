@@ -8,23 +8,10 @@ class Anagram{
       candidates = Array.prototype.slice.call(arguments);
     }
 
-    let results = [];
+    return candidates
+      .filter(c => this.subject.toLowerCase() !== c.toLowerCase())
+      .filter(c => [...c.toLowerCase()].sort().join() === [...this.subject.toLowerCase()].sort().join())
 
-    for (let candidate of candidates){
-      let clone = this.subject.toLowerCase();
-      let tCandidate = candidate.toLowerCase();
-
-      if(clone !== tCandidate){
-        let check1 = [...tCandidate].sort().join('')
-        let check2 = [...clone].sort().join('')
-
-        if(check1 === check2){
-          results.push(candidate);
-        }
-      }
-    }
-    return results;
   }
 }
-
 export default Anagram
