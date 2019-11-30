@@ -1,24 +1,26 @@
 defmodule Bob do
-  def hey(input) when input == "", do: "Fine. Be that way!"
-  def hey(input) when input == "  ", do: "Fine. Be that way!"
-
   def hey(input) do
-    last_char = String.at(input, String.length(input) - 1)
-    punc? = String.match?(last_char, ~r/[?!.]/)
-    all_upper = input != String.upcase(input)
-    has_letters = String.match?(input, ~r/[\p{L}]/)
-
-    if punc? do
-      if has_letters do
-        result(last_char, all_upper)
-      else
-        "Sure."
-      end
+    if String.trim(input) == "" do
+      "Fine. Be that way!"
     else
-      if has_letters do
-        "Whoa, chill out!"
+
+      last_char = String.at(input, String.length(input) - 1)
+      punc? = String.match?(last_char, ~r/[?!.]/)
+      all_upper = input != String.upcase(input)
+      has_letters = String.match?(input, ~r/[\p{L}]/)
+
+      if punc? do
+        if has_letters do
+          result(last_char, all_upper)
+        else
+          "Sure."
+        end
       else
-        "Whatever."
+        if has_letters do
+          "Whoa, chill out!"
+        else
+          "Whatever."
+        end
       end
     end
   end
